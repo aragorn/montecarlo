@@ -9,6 +9,7 @@ import (
 	"github.com/aragorn/montecarlo/montecarlo"
 )
 
+//goland:noinspection GoUnhandledErrorResult
 func main() {
 	// Define command line flags
 	versionFlag := flag.Bool("version", false, "Print version information")
@@ -51,9 +52,9 @@ func main() {
 	}
 
 	// Calculate Pi using Monte Carlo method
-	pi, error := montecarlo.CalculatePiWithError(*pointsFlag)
+	pi, _error := montecarlo.CalculatePiWithError(*pointsFlag)
 
 	fmt.Printf("π approximation using Monte Carlo method with %d points: %.10f\n", *pointsFlag, pi)
-	fmt.Printf("Error compared to math.Pi: %.10f\n", error)
+	fmt.Printf("Error compared to math.Pi: %.10f\n", _error)
 	fmt.Printf("Actual value of π: %.10f\n", 3.14159265359)
 }
