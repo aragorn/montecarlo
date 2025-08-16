@@ -1,6 +1,20 @@
 # Monte Carlo Pi Simulation
 
-A command-line application for calculating Pi using the Monte Carlo method.
+A command-line application for calculating Pi (π) using the Monte Carlo method.
+
+## What is the Monte Carlo Method?
+
+The Monte Carlo method for calculating π works by:
+
+1. Creating a square with side length 2r, centered at the origin
+2. Inscribing a circle with radius r inside the square
+3. Randomly generating points within the square
+4. Counting how many points fall inside the circle
+5. The ratio of points inside the circle to total points approaches π/4 as the number of points increases
+
+So π ≈ 4 * (points inside circle / total points)
+
+The more points you generate, the more accurate the approximation becomes.
 
 ## Requirements
 
@@ -49,27 +63,33 @@ pi [options] [arguments]
 
 - `-help`: Print help information
 - `-version`: Print version information
+- `-points`: Number of points to use in Monte Carlo simulation (default: 1000000)
 
 ### Examples
 
-1. Run without arguments to see the welcome message:
+1. Calculate π using the default number of points (1,000,000):
    ```bash
    ./pi
    ```
 
-2. Display help information:
+2. Calculate π using a specific number of points:
+   ```bash
+   ./pi -points 10000000
+   ```
+
+3. Calculate π by passing the number of points as an argument:
+   ```bash
+   ./pi 5000000
+   ```
+
+4. Display help information:
    ```bash
    ./pi -help
    ```
 
-3. Display version information:
+5. Display version information:
    ```bash
    ./pi -version
-   ```
-
-4. Pass arguments to the program:
-   ```bash
-   ./pi arg1 arg2 arg3
    ```
 
 ## Development

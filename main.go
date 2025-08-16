@@ -4,12 +4,16 @@ import (
 	"flag"
 	"fmt"
 	"os"
+	"strconv"
+
+	"github.com/aragorn/montecarlo/montecarlo"
 )
 
 func main() {
 	// Define command line flags
 	versionFlag := flag.Bool("version", false, "Print version information")
 	helpFlag := flag.Bool("help", false, "Print help information")
+	pointsFlag := flag.Int("points", 1000000, "Number of points to use in Monte Carlo simulation")
 
 	// Custom usage message
 	flag.Usage = func() {
@@ -17,6 +21,8 @@ func main() {
 		fmt.Fprintf(os.Stderr, "  pi [options] [arguments]\n\n")
 		fmt.Fprintf(os.Stderr, "Options:\n")
 		flag.PrintDefaults()
+		fmt.Fprintf(os.Stderr, "\nExamples:\n")
+		fmt.Fprintf(os.Stderr, "  pi -points 10000000\n")
 	}
 
 	// Parse command line arguments
@@ -34,14 +40,20 @@ func main() {
 		return
 	}
 
-	// If no arguments provided, print welcome message
-	if flag.NArg() == 0 {
-		fmt.Println("Welcome to pi - a simple CLI program!")
-		fmt.Println("Use -help flag to see available options.")
-		return
+	// If arguments provided, try to parse as number of points
+	if flag.NArg() > 0 {
+		if numPoints, err := strconv.Atoi(flag.Arg(0)); err == nil {
+			*pointsFlag = numPoints
+		} else {
+			fmt.Println("Arguments provided:", flag.Args())
+			return
+		}
 	}
 
-	// Handle positional arguments
-	args := flag.Args()
-	fmt.Println("Arguments provided:", args)
+	// Calculate Pi using Monte Carlo method
+	pi, error := montecarlo.CalculatePiWithError(*pointsFlag)
+
+	fmt.Printf("π approximation using Monte Carlo method with %d points: %.10f\n", *pointsFlag, pi)
+	fmt.Printf("Error compared to math.Pi: %.10f\n", error)
+	fmt.Printf("Actual value of π: %.10f\n", 3.14159265359)
 }
